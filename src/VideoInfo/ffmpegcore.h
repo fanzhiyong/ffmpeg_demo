@@ -25,6 +25,8 @@ private:
 
     void init();
 
+    qint64 getDurationMs(AVStream * stream);
+
 private:
 
     AVFormatContext * m_formatCtx;

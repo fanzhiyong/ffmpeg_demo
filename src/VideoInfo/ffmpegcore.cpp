@@ -25,9 +25,14 @@ bool FFmpegCore::load(const QString &name)
 
     for( unsigned int i = 0; i < m_formatCtx->nb_streams; i++ )
     {
-        if( m_formatCtx->streams[i]->codec->codec_type == AVMEDIA_TYPE_VIDEO )
+        AVStream * avStream = m_formatCtx->streams[i];
+        if( avStream->codec->codec_type == AVMEDIA_TYPE_VIDEO )
         {
-            qInfo()<<"Video Info";
+            qInfo()<<"Duration: "<<getDurationMs(avStream);
+            qInfo()<<"Frames: "<<avStream->nb_frames;
+            qInfo()<<"FPS: "<<avStream->avg_frame_rate.num/(double)avStream->avg_frame_rate.den;
+            qInfo()<<"BitRate: "<<avStream->codecpar->bit_rate;
+            qInfo()<<"Size: "<<avStream->codecpar->width<<" "<<avStream->codecpar->height;
         }
     }
 
@@ -44,4 +49,12 @@ FFmpegCore::FFmpegCore(QObject *parent) : QObject(parent)
 void FFmpegCore::init()
 {
     av_register_all();
+}
+
+qint64 FFmpegCore::getDurationMs(AVStream *stream)
+{
+    if( stream == NULL ) return 0;
+
+    qint64 duration = stream->time_base.num * stream->duration * 1000 / (double)stream->time_base.den;
+    return duration;
 }

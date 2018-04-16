@@ -1,4 +1,4 @@
-#ifndef WIDGET_H
+﻿#ifndef WIDGET_H
 #define WIDGET_H
 
 #include <QWidget>
@@ -13,7 +13,18 @@ class Widget : public QWidget
 
 public:
     explicit Widget(QWidget *parent = 0);
+
     ~Widget();
+
+private slots:
+
+    void on_chooseBtn_clicked();
+
+    void on_loadBtn_clicked();
+
+private:
+
+    QString getVideoPath();
 
 private:
     Ui::Widget *ui;

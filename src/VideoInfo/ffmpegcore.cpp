@@ -26,14 +26,26 @@ bool FFmpegCore::load(const QString &name)
     for( unsigned int i = 0; i < m_formatCtx->nb_streams; i++ )
     {
         AVStream * avStream = m_formatCtx->streams[i];
+
+        // video
         if( avStream->codec->codec_type == AVMEDIA_TYPE_VIDEO )
         {
+            qInfo()<<"Video Info --------------";
             qInfo()<<"Duration: "<<getDurationMs(avStream);
             qInfo()<<"Frames: "<<avStream->nb_frames;
             qInfo()<<"FPS: "<<avStream->avg_frame_rate.num/(double)avStream->avg_frame_rate.den;
-            qInfo()<<"BitRate: "<<avStream->codecpar->bit_rate;
+            qInfo()<<"Bitrate: "<<avStream->codecpar->bit_rate;
             qInfo()<<"Size: "<<avStream->codecpar->width<<" "<<avStream->codecpar->height;
         }
+
+        if( avStream->codec->codec_type == AVMEDIA_TYPE_AUDIO )
+        {
+            qInfo()<<"\nAudio Info --------------";
+            //qInfo()<<"Bitrate: ";
+            qInfo()<<"Sample: "<<avStream->codecpar->sample_rate;
+            qInfo()<<"Channels: "<<avStream->codecpar->channels;
+        }
+
     }
 
     return true;

@@ -6,12 +6,13 @@
 #include <QMutex>
 #include <QWaitCondition>
 #include "ffmpegpacketqueue.h"
+#include "mmtimer.h"
 
 class  ShowBase;
 struct AVFrame;
 struct AVCodecContext;
 
-class FFmpegPlayerVideo : public QThread, public FFmpegPacketQueue
+class FFmpegPlayerVideo : public QObject, public FFmpegPacketQueue
 {
     Q_OBJECT
 public:
@@ -21,13 +22,19 @@ public:
 
     void setContext(AVCodecContext *context);
 
-private:
+    void start();
 
-    void run();
+    void pause();
+
+    void stop();
+
+private:
 
     void showFrame();
 
-    void waitPlayNext();
+private slots:
+
+    void onTimeout();
 
 private:
 
@@ -35,6 +42,8 @@ private:
     AVFrame          * m_frame;
 
     qreal              m_fps;
+
+    MMTimer          * m_timer;
 
     AVCodecContext   * m_context;
 };

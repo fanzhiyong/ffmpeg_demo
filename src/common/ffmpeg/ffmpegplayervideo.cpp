@@ -10,12 +10,15 @@ extern "C"
 #include "libswscale/swscale.h"
 }
 
-FFmpegPlayerVideo::FFmpegPlayerVideo(QObject *parent, ShowBase * showBase):QThread(parent)
+FFmpegPlayerVideo::FFmpegPlayerVideo(QObject *parent, ShowBase * showBase) : QObject(parent)
 {
     m_fps     = 0;
     m_show    = showBase;
     m_frame   = av_frame_alloc();
     m_context = NULL;
+
+    m_timer   = new MMTimer(this);
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(onTimeout()));
 }
 
 void FFmpegPlayerVideo::setFps(qreal fps)
@@ -28,31 +31,28 @@ void FFmpegPlayerVideo::setContext(AVCodecContext *context)
     m_context = context;
 }
 
-void FFmpegPlayerVideo::run()
+void FFmpegPlayerVideo::start()
 {
-    while( true )
+    int ms =  m_fps > 0 ? 1000/m_fps : 40;    // 25fps
+    m_timer->setInterval(ms);
+    m_timer->start();
+}
+
+void FFmpegPlayerVideo::pause()
+{
+    if( m_timer->isActive() )
     {
-        AVPacket * packet = getPacket();
-        if( packet != NULL )
-        {
-            int gotPicture = 0;
-            if( avcodec_decode_video2(m_context, m_frame, &gotPicture, packet) < 0 )
-            {
-                qInfo()<<"Decode error.";
-            }
-            else
-            {
-                if( gotPicture )
-                {
-                    showFrame();
-                }
-            }
-
-            av_free_packet(packet);
-        }
-
-        waitPlayNext();
+        m_timer->stop();
     }
+    else
+    {
+        m_timer->start();
+    }
+}
+
+void FFmpegPlayerVideo::stop()
+{
+    m_timer->stop();
 }
 
 void FFmpegPlayerVideo::showFrame()
@@ -68,7 +68,25 @@ void FFmpegPlayerVideo::showFrame()
     m_show->show(&showFrame);
 }
 
-void FFmpegPlayerVideo::waitPlayNext()
+void FFmpegPlayerVideo::onTimeout()
 {
-    msleep(40);
+    AVPacket * packet = getPacket();
+    if( packet != NULL )
+    {
+        int gotPicture = 0;
+        if( avcodec_decode_video2(m_context, m_frame, &gotPicture, packet) < 0 )
+        {
+            qInfo()<<"Decode error.";
+        }
+        else
+        {
+            if( gotPicture )
+            {
+                showFrame();
+            }
+        }
+
+        av_free_packet(packet);
+    }
+
 }

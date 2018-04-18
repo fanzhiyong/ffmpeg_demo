@@ -1,6 +1,7 @@
 PROJECTROOT = $$PWD/..
 INCLUDEPATH += $$PROJECTROOT/include/sdl2.0
 INCLUDEPATH += $$PROJECTROOT/include/ffmpeg
+INCLUDEPATH += $$PROJECTROOT/src/common
 
 # SDL
 LIBS += $$PROJECTROOT/lib/sdl2.0/x86/sdl2.lib

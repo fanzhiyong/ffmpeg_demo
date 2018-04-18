@@ -30,13 +30,25 @@ SOURCES += \
         widget.cpp \
     ../common/show/sdlshow.cpp \
     ../common/show/showbase.cpp \
-    ../common/show/showglobal.cpp
+    ../common/show/showglobal.cpp \
+    ../common/ffmpeg/ffmpegglobal.cpp \
+    ../common/ffmpeg/ffmpegpacketqueue.cpp \
+    ../common/ffmpeg/ffmpegplayer.cpp \
+    ../common/ffmpeg/ffmpegplayercore.cpp \
+    ../common/ffmpeg/ffmpegplayervideo.cpp \
+    ../common/ffmpeg/mmtimer.cpp
 
 HEADERS += \
         widget.h \
     ../common/show/sdlshow.h \
     ../common/show/showbase.h \
-    ../common/show/showglobal.h
+    ../common/show/showglobal.h \
+    ../common/ffmpeg/ffmpegglobal.h \
+    ../common/ffmpeg/ffmpegpacketqueue.h \
+    ../common/ffmpeg/ffmpegplayer.h \
+    ../common/ffmpeg/ffmpegplayercore.h \
+    ../common/ffmpeg/ffmpegplayervideo.h \
+    ../common/ffmpeg/mmtimer.h
 
 FORMS += \
         widget.ui

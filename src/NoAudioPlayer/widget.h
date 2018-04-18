@@ -2,7 +2,7 @@
 #define WIDGET_H
 
 #include <QWidget>
-#include "show/sdlshow.h"
+#include "ffmpeg/ffmpegplayer.h"
 
 namespace Ui {
 class Widget;
@@ -17,11 +17,16 @@ public:
 
     ~Widget();
 
+private slots:
+    void on_playBtn_clicked();
+
+    void on_stopBtn_clicked();
+
 private:
 
     Ui::Widget *ui;
 
-    SDLShow * m_show;
+    FFmpegPlayer * m_player;
 };
 
 #endif // WIDGET_H

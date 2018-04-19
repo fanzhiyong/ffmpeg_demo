@@ -19,6 +19,8 @@ FFmpegPlayerCore::FFmpegPlayerCore(QObject *parent, ShowBase * showBase) : QThre
     m_audioIndex = -1;
     m_videoIndex = -1;
 
+    m_durationMs = 0;
+
     globalInit();
 
     m_formatCtx = avformat_alloc_context();
@@ -53,6 +55,11 @@ void FFmpegPlayerCore::stop()
 void FFmpegPlayerCore::pause()
 {
     m_video->pause();
+}
+
+int FFmpegPlayerCore::getLength()
+{
+    return m_durationMs;
 }
 
 void FFmpegPlayerCore::setStatus(PlayStatus status)
@@ -137,6 +144,9 @@ bool FFmpegPlayerCore::_loadMedia()
 //        m_audio->setContext(context);
 //    }
 
+    // info
+    m_durationMs = getDurationMs(m_formatCtx->streams[m_videoIndex]);
+
     return true;
 }
 
@@ -192,6 +202,14 @@ void FFmpegPlayerCore::globalInit()
 
     // register ffmpeg
     av_register_all();
+}
+
+int FFmpegPlayerCore::getDurationMs(AVStream *stream)
+{
+    if( stream == NULL ) return 0;
+
+    int duration = stream->time_base.num * stream->duration * 1000 / (double)stream->time_base.den;
+    return duration;
 }
 
 void FFmpegPlayerCore::playMedia()

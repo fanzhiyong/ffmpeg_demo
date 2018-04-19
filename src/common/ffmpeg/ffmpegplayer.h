@@ -21,6 +21,12 @@ public:
 
     void pause();
 
+    int  getLength(void);
+
+signals:
+
+    void timeChange(int ms);
+
 protected:
 
     bool event(QEvent *event);

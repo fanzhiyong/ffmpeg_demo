@@ -12,6 +12,7 @@ struct AVFormatContext;
 struct AVPacket;
 struct AVCodecContext;
 class  FFmpegPlayerVideo;
+class  AVStream;
 
 class FFmpegPlayerCore : public QThread
 {
@@ -26,6 +27,8 @@ public:
     void stop();
 
     void pause();
+
+    int  getLength(void);
 
 private:
 
@@ -45,6 +48,8 @@ private:
 
     void globalInit();
 
+    int  getDurationMs(AVStream * stream);
+
 private:
 
     QString             m_address;
@@ -56,6 +61,8 @@ private:
     int                 m_videoIndex;
 
     FFmpegPlayerVideo * m_video;
+
+    int                 m_durationMs;
     //FFmpegPlayerAudio * m_audio;
 };
 

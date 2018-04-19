@@ -1,5 +1,6 @@
 ﻿#include "widget.h"
 #include "ui_widget.h"
+#include <QDebug>
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
@@ -29,4 +30,14 @@ void Widget::on_stopBtn_clicked()
 void Widget::on_pauseBtn_clicked()
 {
     m_player->pause();
+}
+
+void Widget::on_horizontalSlider_sliderMoved(int position)
+{
+    qInfo()<<"Slider: move: "<<position;
+}
+
+void Widget::on_infoBtn_clicked()
+{
+    qInfo()<<"duration ms: "<<m_player->getLength();
 }

@@ -24,6 +24,10 @@ private slots:
 
     void on_pauseBtn_clicked();
 
+    void on_horizontalSlider_sliderMoved(int position);
+
+    void on_infoBtn_clicked();
+
 private:
 
     Ui::Widget *ui;

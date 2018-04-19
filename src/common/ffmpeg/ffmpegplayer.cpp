@@ -32,6 +32,11 @@ void FFmpegPlayer::pause()
     m_core->pause();
 }
 
+int FFmpegPlayer::getLength()
+{
+    return m_core->getLength();
+}
+
 bool FFmpegPlayer::event(QEvent *event)
 {
     if( event->type() == QEvent::Resize || event->type() == QEvent::Show )

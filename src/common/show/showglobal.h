@@ -11,6 +11,10 @@ struct ShowFrame
         this->h = h;
     }
 
+    static ShowFrame * crate(int w, int h, unsigned char * buffer);
+
+    static unsigned char * createYUV(int w, int h, int y, int u, int v);
+
     int w;
     int h;
 

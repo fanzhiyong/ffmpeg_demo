@@ -1,6 +1,7 @@
 ﻿#include "ffmpegplayer.h"
 #include "show/sdlshow.h"
 #include "ffmpegplayercore.h"
+#include <QPainter>
 
 FFmpegPlayer::FFmpegPlayer(QWidget *parent) : QWidget(parent)
 {
@@ -39,4 +40,12 @@ bool FFmpegPlayer::event(QEvent *event)
     }
 
     return QWidget::event(event);
+}
+
+void FFmpegPlayer::paintEvent(QPaintEvent *event)
+{
+    Q_UNUSED(event);
+
+    QPainter p(this);
+    p.fillRect(rect(), QBrush(QColor(0,0,0)));
 }

@@ -117,3 +117,19 @@ void SDLShow::repaint()
 
     m_mutex.unlock();
 }
+
+void SDLShow::reset()
+{
+    // create
+    int w = 128;
+    int h = 128;
+    unsigned char * buffer = ShowFrame::createYUV(w, h, 0, 0x80, 0x80);
+    ShowFrame * frame = ShowFrame::crate(w, h, buffer);
+
+    // show
+    show(frame);
+
+    // release
+    delete frame;
+    delete [] buffer;
+}

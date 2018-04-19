@@ -25,3 +25,8 @@ void Widget::on_stopBtn_clicked()
 {
     m_player->stop();
 }
+
+void Widget::on_pauseBtn_clicked()
+{
+    m_player->pause();
+}

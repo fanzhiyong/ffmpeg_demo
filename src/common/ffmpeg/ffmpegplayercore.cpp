@@ -47,27 +47,17 @@ void FFmpegPlayerCore::play(const QString &address)
 void FFmpegPlayerCore::stop()
 {
     setStatus(StopStatus);
+    m_video->stop();
 }
 
 void FFmpegPlayerCore::pause()
 {
-//    if( m_timer->isActive() )
-//    {
-//        m_timer->stop();
-//    }
-//    else
-//    {
-//        m_timer->start();
-//    }
+    m_video->pause();
 }
 
 void FFmpegPlayerCore::setStatus(PlayStatus status)
 {
     m_status = status;
-    if( status == StopStatus )
-    {
-        //m_timer->stop();
-    }
 }
 
 void FFmpegPlayerCore::loadMedia()
@@ -173,7 +163,7 @@ AVCodecContext * FFmpegPlayerCore::loadCodec(int index)
 void FFmpegPlayerCore::run()
 {
     AVPacket * packet = new AVPacket();
-    while( av_read_frame(m_formatCtx, packet) >= 0 )
+    while( av_read_frame(m_formatCtx, packet) >= 0 && m_status != StopStatus )
     {
         if( packet->stream_index == m_videoIndex )
         {

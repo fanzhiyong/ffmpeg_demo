@@ -22,6 +22,8 @@ private slots:
 
     void on_stopBtn_clicked();
 
+    void on_pauseBtn_clicked();
+
 private:
 
     Ui::Widget *ui;

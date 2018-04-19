@@ -13,6 +13,8 @@ public:
     virtual void show(ShowFrame * frame) = 0;
 
     virtual void repaint() = 0;
+
+    virtual void reset() = 0;
 };
 
 #endif // SHOWBASE_H

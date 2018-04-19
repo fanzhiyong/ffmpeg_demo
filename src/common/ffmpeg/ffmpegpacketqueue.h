@@ -22,6 +22,10 @@ public:
 
     AVPacket * getPacket();
 
+protected:
+
+    void clear();
+
 private:
 
     void removePacket();

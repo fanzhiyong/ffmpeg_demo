@@ -61,6 +61,19 @@ AVPacket * FFmpegPacketQueue::getPacket()
     return packet;
 }
 
+void FFmpegPacketQueue::clear()
+{
+    FFmpegAutoLock al(&m_mutex);
+    Q_UNUSED(al);
+
+    while( m_packets.size() > 0 )
+    {
+        delete m_packets.front();
+        m_packets.pop_front();
+        m_semaphore.release(1);
+    }
+}
+
 void FFmpegPacketQueue::removePacket()
 {
     FFmpegAutoLock al(&m_mutex);

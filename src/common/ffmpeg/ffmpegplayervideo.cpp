@@ -53,6 +53,9 @@ void FFmpegPlayerVideo::pause()
 void FFmpegPlayerVideo::stop()
 {
     m_timer->stop();
+    clear();
+    // reset
+    m_show->reset();
 }
 
 void FFmpegPlayerVideo::showFrame()

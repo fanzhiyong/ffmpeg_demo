@@ -16,6 +16,8 @@ public:
 
     void repaint();
 
+    void reset();
+
 private:
 
     void init(QWidget *parent);

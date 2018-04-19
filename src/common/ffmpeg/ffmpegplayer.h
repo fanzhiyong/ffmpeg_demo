@@ -25,6 +25,8 @@ protected:
 
     bool event(QEvent *event);
 
+    void paintEvent(QPaintEvent * event);
+
 private:
 
     FFmpegPlayerCore * m_core;
